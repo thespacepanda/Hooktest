@@ -1,6 +1,5 @@
 import platform
 import smtplib
-import sys
 from flask import Flask, request
 from email.mime.text import MIMEText
 from validate_email import validate_email
