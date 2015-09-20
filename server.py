@@ -1,3 +1,4 @@
+import platform
 import smtplib
 import sys
 from flask import Flask, request
@@ -13,13 +14,24 @@ def index():
 
 
 @app.route("/<path:path>", methods=["GET", "POST"])
-def check_email(path):
-    msg = MIMEText(request.data)
+def send_post_data(path):
     path_is_valid_email = validate_email(path, verify=True)
     if path_is_valid_email:
-        return "True"
+        send_email(path, request.data)
+        return request.data
     else:
         return "Specified email address {} is not valid.".format(path)
+
+
+def send_email(recipient, message):
+    me = "hooktest@{}".format(platform.node())
+    message = MIMEText(message)
+    message["Subject"] = "Incoming Request Data"
+    message["From"] = me
+    message["To"] = recipient
+    smtp_server = smtplib.SMTP('localhost')
+    smtp_server.sendmail(me, [recipient], message.as_string())
+    smtp_server.quit()
 
 
 if __name__ == "__main__":
