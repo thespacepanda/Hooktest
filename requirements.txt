@@ -1,0 +1,3 @@
+flask
+pyDNS
+validate_email
