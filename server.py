@@ -12,7 +12,7 @@ def index():
     return "Hooktest requires the target email to be specified in the URL - i.e. \"https://my.hooktest.url/my.email.address@gmail.com\""
 
 
-@app.route("/<path:path>", methods=["GET", "POST"])
+@app.route("/<path:path>", methods=["POST"])
 def send_post_data(path):
     path_is_valid_email = validate_email(path, verify=True)
     if path_is_valid_email:
